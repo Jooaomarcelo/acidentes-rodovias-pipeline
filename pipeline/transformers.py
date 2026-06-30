@@ -30,7 +30,7 @@ class AccidentsTransformer(BaseTransformer):
         df_clean['br'] = df_clean['br'].astype(str).str.replace('.0', '', regex=False).str.strip().str.zfill(3)
         
         # Substituição dos valores NaN por um valor padrão ("Desconhecido" ou "SPRF-{uf}")
-        colunas_nulas = ['classificacao_acidente', 'delegacia', 'uop']
+        colunas_nulas = ['classificacao_acidente', 'delegacia', 'tipo_acidente', 'uop']
         df_clean[colunas_nulas] = df_clean[colunas_nulas].fillna('Desconhecido')
 
         mascara = df_clean['regional'].isna()
