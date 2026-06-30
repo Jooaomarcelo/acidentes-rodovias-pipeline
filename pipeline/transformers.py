@@ -29,6 +29,13 @@ class AccidentsTransformer(BaseTransformer):
         # Padronização da chave rodovia BR para string de 3 dígitos com preenchimento (ex: '060', '153')
         df_clean['br'] = df_clean['br'].astype(str).str.replace('.0', '', regex=False).str.strip().str.zfill(3)
         
+        # Substituição dos valores NaN por um valor padrão ("Desconhecido" ou "SPRF-{uf}")
+        colunas_nulas = ['classificacao_acidente', 'delegacia', 'uop']
+        df_clean[colunas_nulas] = df_clean[colunas_nulas].fillna('Desconhecido')
+
+        mascara = df_clean['regional'].isna()
+        df_clean.loc[mascara, 'regional'] = 'SPRF-' + df_clean.loc[mascara, 'uf']
+
         return df_clean
 
 class RadarsTransformer(BaseTransformer):
